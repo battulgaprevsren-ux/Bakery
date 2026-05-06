@@ -1,0 +1,41 @@
+// Нэвтрэх товч дарахад
+async function doLogin() {
+    const email    = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    const res = await fetch('api/login.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+        alert('Тавтай морил, ' + data.full_name + '!');
+        window.location.href = 'index.html';
+    } else {
+        alert(data.message);
+    }
+}
+
+// Бүртгэх товч дарахад
+async function doRegister() {
+    const res = await fetch('api/register.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            full_name: document.getElementById('fullname').value,
+            email:     document.getElementById('email').value,
+            password:  document.getElementById('password').value,
+            phone:     document.getElementById('phone').value
+        })
+    });
+
+    const data = await res.json();
+    alert(data.message);
+
+    if (data.success) {
+        window.location.href = 'login.html';
+    }
+}
